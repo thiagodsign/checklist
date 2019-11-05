@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checklist</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body class="pagina">
+  <header class="barra-navegacao">
+    <div class="barra-navegacao__container">
+      <div class="barra-navegacao__conteudo-principal">
+        <div class="barra-navegacao__conteudo-primario">
+          <div class="barra-navegacao__container-titulos">
+            <h1 class="barra-navegacao__titulo">Checklist para teste do sistema</h1>
+          </div>
+        </div>
+
+        <div class="barra-navegacao__conteudo-secundario">
+          <button class="botao_pequeno botao botao_cor-primaria u-margem-inferior-media botao_contorno"
+            onclick="desmarcarTodos()">
+            Desmarcar Tudo
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="container container_com-fundo container_pequeno container_com-margem">
+    <form class="formulario">
+      <fieldset>
+        <h2 class="titulo titulo_medio u-margem-inferior-media">Processo:</h2>
+        <div id="lista1"></div>
+
+        <h2 class="titulo titulo_medio u-margem-inferior-media">Despachos:</h2>
+        <div id="lista2"></div>
+
+        <h2 class="titulo titulo_medio u-margem-inferior-media">Gerenciamento Admin:</h2>
+        <div id="lista3"></div>
+
+        <h2 class="titulo titulo_medio u-margem-inferior-media">Fora do Login:</h2>
+        <div id="lista4"></div>
+      </fieldset>
+    </form>
+  </section>
+</body>
+
+<script src="script.js"></script>
+
+</html>
