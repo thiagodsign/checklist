@@ -63,7 +63,7 @@ window.onload = function () {
     criarListaDeItens(item, 'lista4');
   });
 
-  marcarLista();
+  marcarListaAoIniciar();
 }
 
 
@@ -81,7 +81,8 @@ function criarListaDeItens(checkListTexto, divInclude) {
   elemento.appendChild(input)
   elemento.appendChild(texto)
   input.setAttribute('type', 'checkbox')
-  input.setAttribute('name', id)
+  input.setAttribute('value', id)
+  input.setAttribute('onclick', 'marcarLista(this)')
   main.appendChild(elemento)
 }
 
@@ -93,18 +94,17 @@ function desmarcarTodos() {
   });
 }
 
-function marcarLista() {
+function marcarLista(id) {
+  if (localStorage.getItem(id.value)) {
+    localStorage.removeItem(id.value)
+  } else localStorage.setItem(id.value, 'marcado')
+}
+
+function marcarListaAoIniciar() {
   var lista = document.querySelectorAll('.formulario__checkbox-container input');
 
   lista.forEach(itemDaLista => {
-    var nomeDoItem = itemDaLista.name;
-    itemDaLista.addEventListener('change', () => {
-      if (localStorage.getItem(nomeDoItem)) {
-        localStorage.removeItem(nomeDoItem)
-      } else localStorage.setItem(nomeDoItem, ' marcado')
-    })
-
-    if (localStorage.getItem(nomeDoItem)) {
+    if (localStorage.getItem(itemDaLista.value)) {
       itemDaLista.checked = true;
     } else itemDaLista.checked = false;
   });
