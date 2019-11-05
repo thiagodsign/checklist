@@ -5,6 +5,12 @@
   box-shadow: 0 0 16px #e6e6e6;
 }
 
+@media screen and (max-width: 720px) {
+  .formulario__checkbox-container {
+    width: 100%;
+  }
+}
+
 input[type="checkbox"] {
   width: 24px !important;
   height: 24px !important;
