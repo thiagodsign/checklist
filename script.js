@@ -46,21 +46,25 @@ lista4 = ['Consultar documento',
   'Esqueci minha senha'
 ]
 
-lista1.forEach(item => {
-  criarListaDeItens(item, 'lista1');
-});
+window.onload = function () {
+  lista1.forEach(item => {
+    criarListaDeItens(item, 'lista1');
+  });
 
-lista2.forEach(item => {
-  criarListaDeItens(item, 'lista2');
-});
+  lista2.forEach(item => {
+    criarListaDeItens(item, 'lista2');
+  });
 
-lista3.forEach(item => {
-  criarListaDeItens(item, 'lista3');
-});
+  lista3.forEach(item => {
+    criarListaDeItens(item, 'lista3');
+  });
 
-lista4.forEach(item => {
-  criarListaDeItens(item, 'lista4');
-});
+  lista4.forEach(item => {
+    criarListaDeItens(item, 'lista4');
+  });
+
+  marcarLista();
+}
 
 
 function criarListaDeItens(checkListTexto, divInclude) {
@@ -81,8 +85,6 @@ function criarListaDeItens(checkListTexto, divInclude) {
   main.appendChild(elemento)
 }
 
-marcarLista()
-
 function desmarcarTodos() {
   localStorage.clear()
   var lista = document.querySelectorAll('.formulario__checkbox-container input');
@@ -99,7 +101,7 @@ function marcarLista() {
     itemDaLista.addEventListener('change', () => {
       if (localStorage.getItem(nomeDoItem)) {
         localStorage.removeItem(nomeDoItem)
-      } else localStorage.setItem(nomeDoItem, nomeDoItem + ' marcado')
+      } else localStorage.setItem(nomeDoItem, ' marcado')
     })
 
     if (localStorage.getItem(nomeDoItem)) {
