@@ -6,8 +6,8 @@
 }
 
 input[type="checkbox"] {
-  width: 32px !important;
-  height: 32px !important;
+  width: 24px !important;
+  height: 24px !important;
   border-radius: 50px !important;
   box-shadow: 0 0 16px #e6e6e6 !important;
 }
