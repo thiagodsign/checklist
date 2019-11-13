@@ -1,78 +1,40 @@
-lista1 = ['Cadastrar processo (usuário global e usuário escola)',
-  'Anexar Documento',
-  'Solicitar assinatura',
-  'Tornar sem efeito',
-  'Visualizar documento original',
-  'Histórico de Assinaturas',
-  'Criar impedimento',
-  'Resolver impedimento',
-  'Visualizar documentos',
-  'Baixar partes do processo',
-  'Baixar todo o processo',
-  'Solicitar parecer de um documento do processo',
-  'Solicitar parecer anexando um documento',
-  'Solicitar Parecer do processo',
-  'Alterar tipo de processo',
-  'Incluir/Excluir interessado',
-  'Visualizar como fluxo',
-  'Pesquisar por tipo de processo no fluxo',
-  'Alterar status',
-  'Alterar status no fluxo',
-  'Configurar notificações'
-]
+marcarListaAoIniciar();
 
-lista2 = ['Assinar documento dentro do despacho',
-  'Recusar despacho de parecer',
-  'Cancelar solicitação de assinatura',
-  'Recusar despacho de assinatura',
-  'Anexar documento de Parecer (enviar e finalizar) – do process documento',
-  'Visualizar documentos do processo pelo despacho',
-  'Botão “Ir para o processo”'
-]
+function criarItemNoChecklist() {
+  firebase.database().ref('/').once('value').then(function (snapshot) {
+    var listaDeItens = (snapshot.val() && snapshot.val().Itens);
+    var idDoItem;
 
-lista3 = ['Gerenciar setores',
-  'Cadastrar setor',
-  'Adicionar processo a um setor',
-  'Remover processo de um setor',
-  'Cadastrar usuário',
-  'Gerenciar setores',
-  'Cadastrar setor',
-  'Adicionar processo a um setor',
-  'Remover processo de um setor',
-  'Cadastrar usuário'
-]
+    if (!listaDeItens) {
+      idDoItem = 1;
+    } else idDoItem = listaDeItens.length;
+    var nomeDoItem = document.querySelector('#item').value;
 
-lista4 = ['Consultar documento',
-  'Esqueci minha senha'
-]
-
-window.onload = function () {
-  lista1.forEach(item => {
-    criarListaDeItens(item, 'lista1');
+    firebase.database().ref('Itens/' + idDoItem).set({
+      itemDaLista: nomeDoItem,
+      marcado: false,
+      id: idDoItem
+      // .then(criarListaDeItens(nomeDoItem, idDoItem))
+    });
   });
-
-  lista2.forEach(item => {
-    criarListaDeItens(item, 'lista2');
-  });
-
-  lista3.forEach(item => {
-    criarListaDeItens(item, 'lista3');
-  });
-
-  lista4.forEach(item => {
-    criarListaDeItens(item, 'lista4');
-  });
-
-  marcarListaAoIniciar();
+  setTimeout(() => {
+    location.reload();
+  }, 200);
 }
 
+firebase.database().ref('/').once('value').then(function (snapshot) {
+  lista1 = (snapshot.val() && snapshot.val().Itens);
 
-function criarListaDeItens(checkListTexto, divInclude) {
-  const hashCode = s => s.split('').reduce((a, b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0)
-  var hash = hashCode(checkListTexto)
-  var id = Math.abs(hash)
+  if (lista1) {
+    lista1.forEach(item => {
+      criarListaDeItens(item.itemDaLista, item.id);
+    });
+  }
+});
 
-  const main = document.getElementById(divInclude)
+
+function criarListaDeItens(checkListTexto, id) {
+  const main = document.getElementById('lista1')
   const elemento = document.createElement('LABEL')
   const input = document.createElement('INPUT')
   var texto = document.createTextNode(checkListTexto)
@@ -87,25 +49,34 @@ function criarListaDeItens(checkListTexto, divInclude) {
 }
 
 function desmarcarTodos() {
-  localStorage.clear()
   var lista = document.querySelectorAll('.formulario__checkbox-container input');
   lista.forEach(itemDaLista => {
     itemDaLista.checked = false;
+    firebase.database().ref('Itens/' + itemDaLista.value).update({
+      marcado: false
+    });
   });
 }
 
-function marcarLista(id) {
-  if (localStorage.getItem(id.value)) {
-    localStorage.removeItem(id.value)
-  } else localStorage.setItem(id.value, 'marcado')
+function marcarLista(checkbox) {
+  if (checkbox.checked) {
+    firebase.database().ref('Itens/' + checkbox.value).update({
+      marcado: true
+    });
+  } else {
+    firebase.database().ref('Itens/' + checkbox.value).update({
+      marcado: false
+    });
+  }
 }
 
 function marcarListaAoIniciar() {
-  var lista = document.querySelectorAll('.formulario__checkbox-container input');
-
-  lista.forEach(itemDaLista => {
-    if (localStorage.getItem(itemDaLista.value)) {
-      itemDaLista.checked = true;
-    } else itemDaLista.checked = false;
+  firebase.database().ref('/').once('value').then(function (snapshot) {
+    var itensDoFB = (snapshot.val() && snapshot.val().Itens);
+    itensDoFB.forEach(item => {
+      if (item.marcado) {
+        document.querySelector(`input[value='${item.id}']`).checked = true;
+      }
+    })
   });
 }

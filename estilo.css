@@ -2,15 +2,14 @@
   background: white;
   padding: 16px;
   border-radius: 8px;
-  box-shadow: 0 0 16px rgb(170, 188, 214), inset 0 0 8px rgb(223, 223, 223);
+  box-shadow: 0 0 16px rgb(170, 188, 214);
   width: 100% !important;
-  border: 2px solid white;
+  border: 2px solid transparent;
 }
 .formulario__checkbox-container:focus,
 .formulario__checkbox-container:focus-within,
 .formulario__checkbox-container:hover,
 .formulario__checkbox-container:active {
-  border: 2px solid #8dbbfc;
   position: relative;
   top: -1px;
   box-shadow: 0 0 32px #0a6bf363;
@@ -22,5 +21,8 @@
 input[type="checkbox"] {
   width: 24px !important;
   height: 24px !important;
-  box-shadow: 0 0 16px #e6e6e6 !important;
+}
+
+input[type="checkbox"]:hover {
+  border-color: red;
 }

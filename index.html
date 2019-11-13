@@ -10,6 +10,25 @@
 </head>
 
 <body class="pagina">
+  <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-analytics.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAf2D_E0B4GKpad9nxMYnVsZJBHyMrGZY0",
+      authDomain: "checklist-c2368.firebaseapp.com",
+      databaseURL: "https://checklist-c2368.firebaseio.com",
+      projectId: "checklist-c2368",
+      storageBucket: "checklist-c2368.appspot.com",
+      messagingSenderId: "889869825060",
+      appId: "1:889869825060:web:d588cb3f04587501f594b1",
+      measurementId: "G-PT54GL2KL5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
 
   <section class="container container_pequeno">
     <div class="grade">
@@ -26,24 +45,20 @@
       </div>
     </div>
 
-    <form class="formulario">
+    <input type="text" id="item" class="formulario__input u-margem-inferior-pequena" placeholder="Inserir novo item">
+    <button class="botao botao_largura-total u-margem-inferior-media" onclick="criarItemNoChecklist()">Inserir</button>
+
+    <form class="formulario u-margem-inferior-media">
       <fieldset>
-        <h2 class="titulo titulo_medio u-margem-inferior-media">Processo:</h2>
+        <h2 class="titulo titulo_medio u-margem-inferior-media">Tasks do sistema:</h2>
         <div id="lista1"></div>
-
-        <h2 class="titulo titulo_medio u-margem-inferior-media">Despachos:</h2>
-        <div id="lista2"></div>
-
-        <h2 class="titulo titulo_medio u-margem-inferior-media">Gerenciamento Admin:</h2>
-        <div id="lista3"></div>
-
-        <h2 class="titulo titulo_medio u-margem-inferior-media">Fora do Login:</h2>
-        <div id="lista4"></div>
       </fieldset>
     </form>
+
+
   </section>
+  <script src="script.js"></script>
 </body>
 
-<script src="script.js"></script>
 
 </html>
