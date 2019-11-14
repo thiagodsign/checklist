@@ -1,44 +1,43 @@
-//Marca os itens conforme o bd
-marcarListaAoIniciar();
+var lista = [];
+
+function obterLista() {
+  firebase.database().ref('/').once('value').then(function (snapshot) {
+    lista = (snapshot.val() && snapshot.val().Itens);
+  }).then(() => construirLista());
+}
+
+obterLista()
 
 function criarItemNoChecklist() {
-  firebase.database().ref('/').once('value').then(function (snapshot) {
-    var listaDeItens = (snapshot.val() && snapshot.val().Itens);
-    var idDoItem;
-    if (!listaDeItens) {
-      idDoItem = 1;
-    } else idDoItem = listaDeItens.length;
+  var idDoItem;
+  if (!lista) {
+    idDoItem = 1;
+  } else idDoItem = lista.length;
 
-    var inputComONome = document.querySelector('#item');
+  var inputComONome = document.querySelector('#item');
 
-    firebase.database().ref('Itens/' + idDoItem).set({
-      itemDaLista: inputComONome.value,
-      marcado: false,
-      id: idDoItem
-    }).then(() => {
-      atualizarLista()
-      inputComONome.value = ''
-    })
-  });
+  firebase.database().ref('Itens/' + idDoItem).set({
+    itemDaLista: inputComONome.value,
+    marcado: false,
+    id: idDoItem
+  }).then(() => {
+    atualizarLista()
+    inputComONome.value = ''
+  })
 }
 
 function atualizarLista() {
-  firebase.database().ref('/').once('value').then(function (snapshot) {
-    var listaDeItens = (snapshot.val() && snapshot.val().Itens);
-    criarListaDeItens(listaDeItens[listaDeItens.length - 1].itemDaLista, listaDeItens[listaDeItens.length - 1].id);
-  });
+  criarListaDeItens(lista[lista.length - 1].itemDaLista, lista[lista.length - 1].id);
 }
 
-firebase.database().ref('/').once('value').then(function (snapshot) {
-  lista1 = (snapshot.val() && snapshot.val().Itens);
-
-  if (lista1) {
-    lista1.forEach(item => {
+function construirLista() {
+  if (lista) {
+    lista.forEach(item => {
       criarListaDeItens(item.itemDaLista, item.id);
-    });
+    })
   }
-});
-
+  marcarListaAoIniciar()
+}
 
 function criarListaDeItens(checkListTexto, id) {
   const main = document.getElementById('lista1')
@@ -78,12 +77,9 @@ function marcarLista(checkbox) {
 }
 
 function marcarListaAoIniciar() {
-  firebase.database().ref('/').once('value').then(function (snapshot) {
-    itensDoFB = (snapshot.val() && snapshot.val().Itens);
-    itensDoFB.forEach(item => {
-      if (item.marcado) {
-        document.querySelector(`input[value='${item.id}']`).checked = true;
-      }
-    })
-  });
+  lista.forEach(item => {
+    if (item.marcado) {
+      document.querySelector(`input[value='${item.id}']`).checked = true;
+    }
+  })
 }
