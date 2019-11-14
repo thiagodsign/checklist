@@ -1,4 +1,5 @@
 var lista = [];
+var inputComONome = document.querySelector('#item');
 
 function obterLista() {
   firebase.database().ref('/').once('value').then(function (snapshot) {
@@ -14,7 +15,6 @@ function criarItemNoChecklist() {
     idDoItem = 1;
   } else idDoItem = lista.length;
 
-  var inputComONome = document.querySelector('#item');
 
   firebase.database().ref('Itens/' + idDoItem).set({
     itemDaLista: inputComONome.value,
@@ -24,10 +24,18 @@ function criarItemNoChecklist() {
     atualizarLista()
     inputComONome.value = ''
   })
+  return false
+}
+
+function apagarTudo() {
+  firebase.database().ref('Itens/').set(null).then(() => location.reload());
 }
 
 function atualizarLista() {
-  criarListaDeItens(lista[lista.length - 1].itemDaLista, lista[lista.length - 1].id);
+  firebase.database().ref('/').once('value').then(function (snapshot) {
+    lista = (snapshot.val() && snapshot.val().Itens);
+  }).then(() => criarListaDeItens(lista[lista.length - 1].itemDaLista, lista[lista.length - 1].id));
+  inputComONome.focus();
 }
 
 function construirLista() {
@@ -35,8 +43,8 @@ function construirLista() {
     lista.forEach(item => {
       criarListaDeItens(item.itemDaLista, item.id);
     })
+    marcarListaAoIniciar()
   }
-  marcarListaAoIniciar()
 }
 
 function criarListaDeItens(checkListTexto, id) {
