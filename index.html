@@ -45,9 +45,6 @@
       </div>
     </div>
 
-    <input type="text" id="item" class="formulario__input u-margem-inferior-pequena" placeholder="Inserir novo item">
-    <button class="botao botao_largura-total u-margem-inferior-media" onclick="criarItemNoChecklist()">Inserir</button>
-
     <form class="formulario u-margem-inferior-media">
       <fieldset>
         <h2 class="titulo titulo_medio u-margem-inferior-media">Tasks do sistema:</h2>
@@ -55,9 +52,27 @@
       </fieldset>
     </form>
 
+    <input autofocus type="text" id="item" class="formulario__input u-margem-inferior-pequena"
+      placeholder="Escreva um novo item">
+    <button id="botao" class="botao botao_largura-total u-margem-inferior-media"
+      onclick="criarItemNoChecklist()">Inserir</button>
+
 
   </section>
   <script src="script.js"></script>
+  <script>
+    let input = document.getElementById("item");
+    let botao = document.getElementById("botao");
+
+    if (!input.value) {
+      botao.disabled = true;
+    }
+    input.addEventListener('input', () => {
+      if (input.value) {
+        botao.disabled = false;
+      } else botao.disabled = true;
+    })
+  </script>
 </body>
 
 
