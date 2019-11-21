@@ -38,7 +38,7 @@
         </div>
 
         <div class="grade__coluna grade__coluna_estreita">
-          <button class="botao u-margem-inferior-media botao_contorno" onclick="desmarcarTodos()">
+          <button class="botao botao_contorno" onclick="desmarcarTodos()">
             Desmarcar Tudo
           </button>
         </div>
@@ -52,10 +52,12 @@
       </fieldset>
     </form>
 
-    <input autofocus type="text" id="item" class="formulario__input u-margem-inferior-pequena"
-      placeholder="Escreva um novo item">
-    <button id="botao" class="botao botao_largura-total u-margem-inferior-media"
-      onclick="criarItemNoChecklist()">Inserir</button>
+
+    <form onsubmit="criarItemNoChecklist(); return false">
+      <input autofocus type="text" id="item" class="formulario__input u-margem-inferior-pequena"
+        placeholder="Escreva um novo item">
+      <button class="botao botao_largura-total botao_sem-preenchimento" id="botao" type="submit">Enviar</button>
+    </form>
 
   </section>
   <script src="script.js"></script>

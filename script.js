@@ -1,52 +1,59 @@
-var nomeDoBanco = '';
-capturarUrlDoSite()
+var nomeDoBanco = 'checklist/'
+var lista = [];
+var inputComONome = document.querySelector('#item');
 
-//Marca os itens conforme o bd
-marcarListaAoIniciar();
+capturarUrlDoSite()
 
 function capturarUrlDoSite() {
   var estaEmAmbienteDeProducao = location.href.indexOf('thiagodsign') >= 1;
-  nomeDoBanco = estaEmAmbienteDeProducao ? 'checklist/' : 'devChecklist/'
+  if (!estaEmAmbienteDeProducao) nomeDoBanco = 'devChecklist/';
 }
 
-function criarItemNoChecklist() {
+function obterLista() {
   firebase.database().ref(nomeDoBanco).once('value').then(function (snapshot) {
-    var listaDeItens = (snapshot.val() && snapshot.val());
-    var idDoItem;
-    if (!listaDeItens) {
-      idDoItem = 1;
-    } else idDoItem = listaDeItens.length;
+    lista = (snapshot.val() && snapshot.val());
+  }).then(() => construirLista());
+}
 
-    var inputComONome = document.querySelector('#item');
+obterLista()
 
-    firebase.database().ref(nomeDoBanco + idDoItem).set({
-      itemDaLista: inputComONome.value,
-      marcado: false,
-      id: idDoItem
-    }).then(() => {
-      atualizarLista()
-      inputComONome.value = ''
-    })
-  });
+function criarItemNoChecklist() {
+  var idDoItem;
+  if (!lista) {
+    idDoItem = 1;
+  } else idDoItem = lista.length;
+
+
+  firebase.database().ref(nomeDoBanco + idDoItem).set({
+    itemDaLista: inputComONome.value,
+    marcado: false,
+    id: idDoItem
+  }).then(() => {
+    atualizarLista()
+    inputComONome.value = ''
+  })
+  return false
+}
+
+function apagarTudo() {
+  firebase.database().ref(nomeDoBanco).set(null).then(() => location.reload());
 }
 
 function atualizarLista() {
   firebase.database().ref(nomeDoBanco).once('value').then(function (snapshot) {
-    var listaDeItens = (snapshot.val() && snapshot.val());
-    criarListaDeItens(listaDeItens[listaDeItens.length - 1].itemDaLista, listaDeItens[listaDeItens.length - 1].id);
-  });
+    lista = (snapshot.val() && snapshot.val());
+  }).then(() => criarListaDeItens(lista[lista.length - 1].itemDaLista, lista[lista.length - 1].id));
+  inputComONome.focus();
 }
 
-firebase.database().ref(nomeDoBanco).once('value').then(function (snapshot) {
-  lista1 = (snapshot.val() && snapshot.val());
-
-  if (lista1) {
-    lista1.forEach(item => {
+function construirLista() {
+  if (lista) {
+    lista.forEach(item => {
       criarListaDeItens(item.itemDaLista, item.id);
-    });
+    })
+    marcarListaAoIniciar()
   }
-});
-
+}
 
 function criarListaDeItens(checkListTexto, id) {
   const main = document.getElementById('lista1')
@@ -86,15 +93,9 @@ function marcarLista(checkbox) {
 }
 
 function marcarListaAoIniciar() {
-  firebase.database().ref(nomeDoBanco).once('value').then(function (snapshot) {
-    itensDoFB = (snapshot.val() && snapshot.val());
-
-    if (itensDoFB) {
-      itensDoFB.forEach(item => {
-        if (item.marcado) {
-          document.querySelector(`input[value='${item.id}']`).checked = true;
-        }
-      })
+  lista.forEach(item => {
+    if (item.marcado) {
+      document.querySelector(`input[value='${item.id}']`).checked = true;
     }
-  });
+  })
 }
