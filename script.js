@@ -1,8 +1,11 @@
+document.addEventListener("DOMContentLoaded", () => {
+  capturarUrlDoSite()
+  obterLista()
+});
+
 var nomeDoBanco = 'checklist/'
 var lista = [];
 var inputComONome = document.querySelector('#item');
-
-capturarUrlDoSite()
 
 function capturarUrlDoSite() {
   var estaEmAmbienteDeProducao = location.href.indexOf('thiagodsign') >= 1;
@@ -10,12 +13,10 @@ function capturarUrlDoSite() {
 }
 
 function obterLista() {
-  firebase.database().ref(nomeDoBanco).once('value').then(function (snapshot) {
+  firebase.database().ref(nomeDoBanco).once('value').then((snapshot) => {
     lista = (snapshot.val() && snapshot.val());
   }).then(() => construirLista());
 }
-
-obterLista()
 
 function criarItemNoChecklist() {
   var idDoItem;
