@@ -1,4 +1,4 @@
-var nomeDoBanco = 'checklist/';
+var nomeDoBanco = '';
 capturarUrlDoSite()
 
 //Marca os itens conforme o bd
@@ -6,13 +6,10 @@ marcarListaAoIniciar();
 
 function capturarUrlDoSite() {
   var estaEmAmbienteDeProducao = location.href.indexOf('thiagodsign') >= 1;
-  if (estaEmAmbienteDeProducao) {
-    nomeDoBanco;
-  } else nomeDoBanco = 'devChecklist/'
+  nomeDoBanco = estaEmAmbienteDeProducao ? 'checklist/' : 'devChecklist/'
 }
 
 function criarItemNoChecklist() {
-  console.log(nomeDoBanco)
   firebase.database().ref(nomeDoBanco).once('value').then(function (snapshot) {
     var listaDeItens = (snapshot.val() && snapshot.val());
     var idDoItem;
