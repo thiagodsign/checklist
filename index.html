@@ -59,7 +59,7 @@
       botao.disabled = true;
     }
     input.addEventListener('input', () => {
-      if (input.value) {
+      if (input.value !== '') {
         botao.disabled = false;
       } else botao.disabled = true;
     })
