@@ -3,12 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
   obterLista()
 });
 
-var nomeDoBanco = 'checklist/'
-var lista = [];
-var inputComONome = document.querySelector('#item');
+let nomeDoBanco = 'checklist/'
+let lista = [];
+let inputComONome = document.querySelector('#item');
+let input = document.getElementById("item");
+let botao = document.getElementById("botao");
 
 function capturarUrlDoSite() {
-  var estaEmAmbienteDeProducao = location.href.indexOf('thiagodsign') >= 1;
+  let estaEmAmbienteDeProducao = location.href.indexOf('thiagodsign') >= 1;
   if (!estaEmAmbienteDeProducao) nomeDoBanco = 'devChecklist/';
 }
 
@@ -19,7 +21,7 @@ function obterLista() {
 }
 
 function criarItemNoChecklist() {
-  var idDoItem;
+  let idDoItem;
   if (!lista) {
     idDoItem = 1;
   } else idDoItem = lista.length;
@@ -31,7 +33,8 @@ function criarItemNoChecklist() {
     id: idDoItem
   }).then(() => {
     atualizarLista()
-    inputComONome.value = ''
+    inputComONome.value = '';
+    botao.disabled = true;
   })
   return false
 }
@@ -60,7 +63,7 @@ function criarListaDeItens(checkListTexto, id) {
   const main = document.getElementById('lista1')
   const elemento = document.createElement('LABEL')
   const input = document.createElement('INPUT')
-  var texto = document.createTextNode(checkListTexto)
+  let texto = document.createTextNode(checkListTexto)
 
   elemento.classList.add('formulario__checkbox-container')
   elemento.appendChild(input)
@@ -72,7 +75,7 @@ function criarListaDeItens(checkListTexto, id) {
 }
 
 function desmarcarTodos() {
-  var lista = document.querySelectorAll('.formulario__checkbox-container input');
+  let lista = document.querySelectorAll('.formulario__checkbox-container input');
   lista.forEach(itemDaLista => {
     itemDaLista.checked = false;
     firebase.database().ref(nomeDoBanco + itemDaLista.value).update({
