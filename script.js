@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   capturarUrlDoSite()
   obterLista()
+  tratarAInicializacaoDoBotaoEDoInput()
 });
 
 let nomeDoBanco = 'checklist/'
@@ -101,5 +102,17 @@ function marcarListaAoIniciar() {
     if (item.marcado) {
       document.querySelector(`input[value='${item.id}']`).checked = true;
     }
+  })
+}
+
+function tratarAInicializacaoDoBotaoEDoInput() {
+  if (!input.value) {
+    botao.disabled = true;
+  }
+
+  input.addEventListener('input', () => {
+    if (input.value) {
+      botao.disabled = false;
+    } else botao.disabled = true;
   })
 }

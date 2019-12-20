@@ -14,7 +14,6 @@
   <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-analytics.js"></script>
   <script src="configuracao-firebase.js"></script>
-  </script>
 
   <section class="container container_pequeno">
     <div class="grade">
@@ -42,27 +41,14 @@
       </fieldset>
     </form>
 
-
     <form onsubmit="criarItemNoChecklist(); return false">
       <input autofocus autocomplete="off" type="text" id="item" class="formulario__input u-margem-inferior-pequena"
         placeholder="Escreva um novo item">
       <button class="botao botao_largura-total" id="botao" type="submit">Enviar</button>
     </form>
-
   </section>
+
   <script src="script.js"></script>
-
-  <script>
-    if (!input.value) {
-      botao.disabled = true;
-    }
-
-    input.addEventListener('input', () => {
-      if (input.value) {
-        botao.disabled = false;
-      } else botao.disabled = true;
-    })
-  </script>
 </body>
 
 
